@@ -84,6 +84,3 @@ sudo systemctl start proxy-bridge.service
 ```bash
 journalctl -u proxy-bridge.service -f
 ```
-
-## Примечание по безопасности
-В данный момент `worker.py` настроен на пропуск проверки TLS-сертификата (`ssl.CERT_NONE`) для упрощения работы с самоподписанными сертификатами. Для использования в рабочей среде (production) следует загрузить `cert.pem` на стороне Worker и установить `ssl.CERT_REQUIRED`.
