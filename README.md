@@ -53,14 +53,9 @@ curl --proxy-user user:pass --proxy socks5h://BRIDGE_IP:1080 https://ifconfig.me
 ### Подключение по SSH к Воркеру (обход NAT)
 Вы можете получить доступ к терминалу Воркера по SSH, пропустив соединение через SOCKS5-прокси. Убедитесь, что на Воркере запущен стандартный SSH-сервер.
 
-Для Linux / macOS:
-```bash
-ssh -o ProxyCommand="nc -X 5 -x BRIDGE_IP:1080 --proxy-auth user:pass %h %p" username_на_воркере@127.0.0.1
-```
-
 Для Windows (в командной строке cmd, требуется установленный Nmap/Ncat):
 ```cmd
-ssh -o "ProxyCommand=ncat --proxy-type socks5 --proxy 192.168.0.130:9595 --proxy-auth user:pass %h %p" user@127.0.0.1
+ssh -o "ProxyCommand=ncat --proxy-type socks5 --proxy bridge.ip.adress.0:port --proxy-auth user:pass %h %p" user@127.0.0.1
 ```
 *В данном случае запрос к `127.0.0.1` перенаправляется на локальный интерфейс самой машины-воркера, что позволяет обойти NAT и получить прямой доступ к её SSH-серверу.*
 
