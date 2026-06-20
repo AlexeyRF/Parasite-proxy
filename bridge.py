@@ -105,7 +105,7 @@ async def handle_client(reader, writer):
         worker_reader, worker_writer = await asyncio.wait_for(worker_pool.get(), timeout=10)
     except asyncio.TimeoutError:
         logging.warning("No workers available")
-        writer.write(struct.pack('!BBBBIBH', 5, 0x04, 0x00, 0x01, 0, 0, 0))
+        writer.write(struct.pack('!BBBBIH', 5, 0x04, 0x00, 0x01, 0, 0))
         await writer.drain()
         writer.close()
         return
@@ -117,13 +117,13 @@ async def handle_client(reader, writer):
         status = await worker_reader.readexactly(1)
         if status != b'\x00':
             logging.error(f"Worker failed to connect to {host}:{port}")
-            writer.write(struct.pack('!BBBBIBH', 5, 0x04, 0x00, 0x01, 0, 0, 0))
+            writer.write(struct.pack('!BBBBIH', 5, 0x04, 0x00, 0x01, 0, 0))
             await writer.drain()
             writer.close()
             worker_writer.close()
             return
 
-        writer.write(struct.pack('!BBBBIBH', 5, 0x00, 0x00, 0x01, 0, 0, 0))
+        writer.write(struct.pack('!BBBBIH', 5, 0x00, 0x00, 0x01, 0, 0))
         await writer.drain()
 
         await asyncio.gather(
